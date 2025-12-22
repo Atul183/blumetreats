@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BlumeTreats | Homemade & Freshly Baked Delights</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" xintegrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- Google Fonts for branding -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+        /* Custom Brand Colors and Fonts */
+        :root {
+            --bs-primary: #A3794F; /* Muted Copper/Caramel */
+            --bs-secondary: #6C5541; /* Rich Espresso Brown */
+            --bs-light-cream: #F8F4E3; /* Creamy Off-White */
+            --font-heading: 'Playfair Display', serif;
+            --font-body: 'Lato', sans-serif;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--bs-light-cream);
+            color: var(--bs-secondary);
+        }
+
+        h1, h2, h3, .navbar-brand {
+            font-family: var(--font-heading);
+            color: var(--bs-secondary);
+        }
+
+        .bg-primary-custom { background-color: var(--bs-primary) !important; }
+        .text-primary-custom { color: var(--bs-primary) !important; }
+        .bg-secondary-custom { background-color: var(--bs-secondary) !important; }
+        .text-secondary-custom { color: var(--bs-secondary) !important; }
+        .text-light-cream { color: var(--bs-light-cream) !important; }
+
+        .btn-primary-custom {
+            background-color: var(--bs-primary);
+            border-color: var(--bs-primary);
+            color: var(--bs-light-cream);
+            transition: all 0.3s;
+        }
+        .btn-primary-custom:hover {
+            background-color: #8d693f; /* Darker copper on hover */
+            border-color: #8d693f;
+            transform: translateY(-2px);
+        }
+
+        .product-card {
+            background-color: #ffffff;
+            border: 1px solid rgba(163, 121, 79, 0.3);
+            border-radius: 1rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+            overflow: hidden;
+            height: 100%;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .hero-section {
+            background-color: var(--bs-secondary);
+            color: var(--bs-light-cream);
+            padding: 8rem 0;
+            border-radius: 0 0 50% 50% / 0 0 10% 10%; /* Soft wave effect at the bottom */
+            margin-bottom: 3rem;
+        }
+
+         .subheading-tagline {
+            display: block;
+            font-size: 1.5rem;
+            font-family: var(--font-body);
+            font-weight: 400;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-top: 10px;
+            opacity: 0.9;
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--bs-primary);
+        }
+        
+        /* Custom Styles for Hero Images */
+        .hero-img-overlay {
+            position: relative;
+            height: 400px; /* Ensure container has a height */
+        }
+        
+        .hero-img {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 5px solid var(--bs-light-cream);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.5s;
+            z-index: 2;
+        }
+        
+        .hero-img:hover {
+            transform: scale(1.05);
+            z-index: 3;
+        }
+
+        /* Image 1: Top Left */
+        #img-1 {
+            top: 20px;
+            left: 0;
+            transform: rotate(-10deg);
+        }
+        
+        /* Image 2: Middle Right */
+        #img-2 {
+            top: 50px;
+            right: 0;
+            width: 180px;
+            height: 180px;
+            transform: rotate(15deg);
+        }
+        
+        /* Image 3: Bottom Left */
+        #img-3 {
+            bottom: 20px;
+            left: 50px;
+            transform: rotate(5deg);
+        }
+        
+        /* Image 4: Bottom Right */
+        #img-4 {
+            bottom: 0;
+            right: 50px;
+            width: 120px;
+            height: 120px;
+            transform: rotate(-20deg);
+        }
+        
+        /* Adjustments for smaller screens */
+        @media (max-width: 768px) {
+            .hero-img-overlay {
+                display: none; /* Hide images on mobile for better focus */
+            }
+            .hero-section {
+                padding: 5rem 0;
+            }
+        }
+        
+        /* NEW: Custom Logo Styling */
+        .navbar-brand-logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.8rem; /* Adjusted for better visual balance */
+        }
+        .navbar-brand-logo i {
+            color: var(--bs-primary); /* Primary color for the icon */
+            margin-right: 0.5rem;
+            font-size: 1.5em; /* Make icon slightly larger than text */
+            transition: transform 0.3s;
+        }
+        .navbar-brand-logo:hover i {
+            transform: rotate(-10deg);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg bg-light-cream shadow-sm sticky-top">
+        <div class="container">
+            <!-- UPDATED: Logo with icon -->
+            <a class="navbar-brand navbar-brand-logo fw-bold text-secondary-custom" href="#">
+                <i class="fas fa-cookie-bite"></i>
+                BlumeTreats
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link text-secondary-custom fw-bold mx-2" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-secondary-custom fw-bold mx-2" href="menu-listing.html">Menu</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-secondary-custom fw-bold mx-2" href="#why-us">Our Story</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-secondary-custom fw-bold mx-2" href="#contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="row align-items-center">
+                
+                <!-- Hero Text Content -->
+                <div class="col-md-7 text-center text-md-start">
+                    <h1 class="display-3 fw-bold text-light-cream">Welcome to BlumeTreats!<span class="subheading-tagline">Where Flavours Blooms in Every Bite.</span> </h1>
+                    <!-- UPDATED: Added the new tagline here -->
+                    <p class="lead mb-4 fs-4 text-primary-custom">
+                        Experience the warmth of homemade goodness delivered straight to your doorstep.
+                    </p>
+                    <h2 class="fs-4 fw-bold text-light-cream mb-5">
+                        Freshly Baked. Simply Better.
+                    </h2>
+                    <a href="menu-listing.html" class="btn btn-lg btn-primary-custom rounded-pill px-5 shadow-lg">
+                        Explore Our Homemade Menu
+                    </a>
+                </div>
+                
+                <!-- Hero Images -->
+                <div class="col-md-5 d-none d-md-block">
+                    <div class="hero-img-overlay">
+                        <!-- 4 images of cakes and cookies added here -->
+                        <img src="images/Strawberry-cheesecake-recipe-6-of-8.jpg" class="hero-img" id="img-1" alt="Cheesecake">
+                        <img src="images/cookie2.jpg" class="hero-img" id="img-2" alt="Chocolate Chip Cookie">
+                        <img src="images/images.jpg" class="hero-img" id="img-3" alt="Waffles">
+                        <img src="images/CakedoughnutsIMG_3120.webp" class="hero-img" id="img-4" alt="Naankhatai">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Menu Section -->
+    <section id="menu" class="py-5 py-md-5">
+        <div class="container">
+            <h2 class="text-center display-5 fw-bold mb-4 text-primary-custom">Our Fresh Delights</h2>
+            <p class="text-center mb-5 fs-5 text-secondary-custom">
+                Every item is **Homemade** and baked **Fresh** daily, ensuring exceptional taste and quality.
+            </p>
+
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                <!-- Product 1: Cakes & Cheesecakes -->
+                <div class="col">
+                    <div class="product-card shadow-md">
+                        <img src="images/strawberry-cake-1-30a.jpg" class="img-fluid" alt="Artisan Cakes" style="height: 200px; object-fit: cover; width: 100%;">
+                        <div class="p-4">
+                            <h3 class="fs-4 fw-bold text-secondary-custom">Cakes & Cheesecakes</h3>
+                            <p class="text-sm text-muted">Celebration cakes, layered chocolate gateaux, and creamy homemade cheesecakes. Perfect for any occasion.</p>
+                            <span class="badge bg-secondary-custom rounded-pill">Homemade Quality</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 2: Cookies & Naankhatai -->
+                <div class="col">
+                    <div class="product-card shadow-md">
+                        <img src="images/nankhatai-indian-cookies.jpg" class="img-fluid" alt="Fresh Cookies" style="height: 200px; object-fit: cover; width: 100%;">
+                        <div class="p-4">
+                            <h3 class="fs-4 fw-bold text-secondary-custom">Cookies & Naankhatai</h3>
+                            <p class="text-sm text-muted">Soft, gooey chocolate chip cookies and traditional, delicate naankhatai. Baked fresh, just like Grandma used to make.</p>
+                            <span class="badge bg-primary-custom rounded-pill">Freshly Baked</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 3: Donuts & Waffles -->
+                <div class="col">
+                    <div class="product-card shadow-md">
+                        <img src="images/CakedoughnutsIMG_3120.webp" class="img-fluid" alt="Gourmet Donuts" style="height: 200px; object-fit: cover; width: 100%;">
+                        <div class="p-4">
+                            <h3 class="fs-4 fw-bold text-secondary-custom">Donuts & Waffles</h3>
+                            <p class="text-sm text-muted">Light, fluffy donuts with unique glazes and crispy, sweet Liege waffles, made to order.</p>
+                            <span class="badge bg-secondary-custom rounded-pill">Daily Specials</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 4: Pizza Dough (Specialty) -->
+                <div class="col">
+                    <div class="product-card shadow-md">
+                        <img src="images/pizzarea.webp" class="img-fluid" alt="Artisan Pizza Dough" style="height: 200px; object-fit: cover; width: 100%;">
+                        <div class="p-4">
+                            <h3 class="fs-4 fw-bold text-secondary-custom">Artisan Pizza Dough</h3>
+                            <p class="text-sm text-muted">Our specialty! Fresh, slow-fermented pizza dough that makes the perfect crispy, chewy crust at home.</p>
+                            <span class="badge bg-primary-custom rounded-pill">Ready to Bake</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Placeholder for two more items to complete the grid -->
+                <div class="col">
+                    <div class="product-card shadow-md">
+                        <img src="images/One-Bowl-Banana.jpg" class="img-fluid" alt="Sweet Breads" style="height: 200px; object-fit: cover; width: 100%;">
+                        <div class="p-4">
+                            <h3 class="fs-4 fw-bold text-secondary-custom">Muffins & Scones</h3>
+                            <p class="text-sm text-muted">Savory and sweet muffins, and light, buttery scones. Ideal for breakfast or afternoon tea.</p>
+                            <span class="badge bg-secondary-custom rounded-pill">Homemade Love</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col">
+                    <div class="product-card shadow-md">
+                        <img src="images/seasonal-fruit-cakes.webp" class="img-fluid" alt="Seasonal Items" style="height: 200px; object-fit: cover; width: 100%;">
+                        <div class="p-4">
+                            <h3 class="fs-4 fw-bold text-secondary-custom">Seasonal Treats</h3>
+                            <p class="text-sm text-muted">Limited edition desserts featuring the freshest ingredients of the season. Check back often!</p>
+                            <span class="badge bg-primary-custom rounded-pill">Limited Edition</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    
+    <!-- Why Choose Us Section -->
+    <section id="why-us" class="py-5 py-md-5 bg-white">
+        <div class="container">
+            <h2 class="text-center display-6 fw-bold mb-4 text-secondary-custom">Our Homemade Promise</h2>
+            <p class="text-center mb-5 fs-5 text-muted">
+                At BlumeTreats, we believe the best flavors come from the best ingredients and traditional care.
+            </p>
+            
+            <div class="row text-center g-4">
+                <div class="col-md-4">
+                    <i class="fas fa-home feature-icon mb-3"></i>
+                    <h3 class="fs-5 fw-bold">100% Homemade</h3>
+                    <p class="text-muted">No mass production. Everything is crafted by hand in small batches in our kitchen.</p>
+                </div>
+                <div class="col-md-4">
+                    <i class="fas fa-seedling feature-icon mb-3"></i>
+                    <h3 class="fs-5 fw-bold">Always Fresh</h3>
+                    <p class="text-muted">We bake to order and use fresh, simple, and high-quality ingredients, never preservatives.</p>
+                </div>
+                <div class="col-md-4">
+                    <i class="fas fa-heart feature-icon mb-3"></i>
+                    <h3 class="fs-5 fw-bold">Baked With Love</h3>
+                    <p class="text-muted">Our passion for baking ensures that every treat leaves our door tasting simply amazing.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact" class="bg-secondary-custom text-light-cream py-5 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <h5 class="fw-bold fs-4 text-primary-custom">BlumeTreats</h5>
+                    <p class="text-sm">Freshly Baked. Simply Better.</p>
+                    <p class="text-sm">Crafting delicious, homemade delights for your table.</p>
+                </div>
+                
+                <div class="col-md-4 mb-4">
+                    <h5 class="fw-bold text-primary-custom">Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="index.html" class="text-light-cream text-decoration-none">Home</a></li>
+                        <li><a href="menu-listing.html" class="text-light-cream text-decoration-none">Menu</a></li>
+                        <li><a href="#why-us" class="text-light-cream text-decoration-none">Our Story</a></li>
+                        <li><a href="#contact" class="text-light-cream text-decoration-none">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-md-4 mb-4">
+                    <h5 class="fw-bold text-primary-custom">Connect With Us</h5>
+                    <p><i class="fas fa-envelope me-2"></i> hello@blumetreats.com</p>
+                    <p><i class="fas fa-phone me-2"></i> (555) 123-4567</p>
+                    <div class="social-icons fs-4">
+                        <a href="#" class="text-light-cream me-3"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-light-cream me-3"><i class="fab fa-facebook-f"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center pt-3 border-top border-primary-custom">
+                <p class="text-sm mb-0">&copy; 2024 BlumeTreats. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" xintegrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>

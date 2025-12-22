@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BlumeTreats | Full Product Menu</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <!-- Google Fonts for branding -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+        /* Custom Brand Colors and Fonts - MATCHING INDEX3.HTML */
+        :root {
+            --bs-primary: #A3794F; /* Muted Copper/Caramel */
+            --bs-secondary: #6C5541; /* Rich Espresso Brown */
+            --bs-light-cream: #F8F4E3; /* Creamy Off-White */
+            --font-heading: 'Playfair Display', serif;
+            --font-body: 'Lato', sans-serif;
+            --whatsapp-green: #25D366;
+            --instagram-pink: #E1306C;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--bs-light-cream);
+            color: var(--bs-secondary);
+        }
+
+        h1, h2, h3, h5, .navbar-brand {
+            font-family: var(--font-heading);
+            color: var(--bs-secondary);
+        }
+
+        .bg-primary-custom { background-color: var(--bs-primary) !important; }
+        .text-primary-custom { color: var(--bs-primary) !important; }
+        .bg-secondary-custom { background-color: var(--bs-secondary) !important; }
+        .text-secondary-custom { color: var(--bs-secondary) !important; }
+        .text-light-cream { color: var(--bs-light-cream) !important; }
+
+        .btn-primary-custom {
+            background-color: var(--bs-primary);
+            border-color: var(--bs-primary);
+            color: var(--bs-light-cream);
+            transition: all 0.3s;
+        }
+        .btn-primary-custom:hover {
+            background-color: #8d693f;
+            border-color: #8d693f;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Order Specific Buttons */
+        .btn-whatsapp {
+            background-color: var(--whatsapp-green);
+            color: white !important;
+            border: none;
+            transition: 0.3s;
+        }
+        .btn-whatsapp:hover {
+            background-color: #128C7E;
+            transform: translateY(-2px);
+        }
+        .btn-instagram {
+            background-color: var(--instagram-pink);
+            color: white !important;
+            border: none;
+            transition: 0.3s;
+        }
+        .btn-instagram:hover {
+            background-color: #C13584;
+            transform: translateY(-2px);
+        }
+
+        .product-card {
+            background-color: #ffffff;
+            border: 1px solid rgba(163, 121, 79, 0.3);
+            border-radius: 1rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-card img {
+            height: 220px;
+            object-fit: cover;
+            width: 100%;
+        }
+
+        .order-banner {
+            background-color: #ffffff;
+            border: 2px dashed var(--bs-primary);
+            border-radius: 1rem;
+            padding: 1.5rem;
+        }
+
+        .navbar-brand-logo i {
+            color: var(--bs-primary);
+            margin-right: 0.5rem;
+            font-size: 1.5em;
+        }
+
+        /* Sidebar Styling */
+        .sidebar {
+            background-color: #ffffff;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            border: 1px solid rgba(163, 121, 79, 0.2);
+        }
+        .filter-group-title {
+            color: var(--bs-secondary);
+            border-bottom: 2px solid var(--bs-primary);
+            padding-bottom: 5px;
+            margin-bottom: 15px;
+        }
+
+        /* Enhanced Price Slider Styling */
+        .price-display {
+            background: var(--bs-light-cream);
+            padding: 8px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+            color: var(--bs-primary);
+            margin-bottom: 10px;
+            border: 1px solid rgba(163, 121, 79, 0.2);
+        }
+        .form-range::-webkit-slider-thumb {
+            background: var(--bs-primary);
+        }
+        .form-range::-moz-range-thumb {
+            background: var(--bs-primary);
+        }
+
+        /* Pager Styling */
+        .pagination .page-link {
+            color: var(--bs-secondary);
+            border: 1px solid rgba(163, 121, 79, 0.3);
+        }
+        .pagination .page-item.active .page-link {
+            background-color: var(--bs-primary);
+            border-color: var(--bs-primary);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg bg-light-cream shadow-sm sticky-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center fw-bold text-secondary-custom" href="index3.html">
+                <i class="fas fa-cookie-bite text-primary-custom me-2" style="font-size: 1.5rem;"></i>
+                BlumeTreats
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link text-primary-custom fw-bold mx-2" href="#">Menu Listing</a></li>
+                    <li class="nav-item"><a class="nav-link text-secondary-custom fw-bold mx-2" href="index3.html#why-us">Our Promise</a></li>
+                    <li class="nav-item"><a class="nav-link text-secondary-custom fw-bold mx-2" href="index3.html#contact">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Hero / Order Info -->
+    <section class="py-5 bg-white shadow-sm mb-5">
+        <div class="container">
+            <div class="row align-items-center g-4">
+                <div class="col-lg-8">
+                    <h1 class="display-4 fw-bold text-secondary-custom">Our Full Menu</h1>
+                    <p class="lead text-muted">Baking memories, one treat at a time. Browse our available products below and message us to place your order.</p>
+                </div>
+                <div class="col-lg-4 text-center">
+                    <div class="order-banner shadow-sm">
+                        <p class="fw-bold mb-3 text-secondary-custom">Quick Order Channels:</p>
+                        <div class="d-grid gap-2">
+                            <a href="#" class="btn btn-whatsapp"><i class="fab fa-whatsapp me-2"></i>Order on WhatsApp</a>
+                            <a href="#" class="btn btn-instagram"><i class="fab fa-instagram me-2"></i>DM on Instagram</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <section class="pb-5">
+        <div class="container">
+            <div class="row g-4">
+                
+                <!-- Sidebar Filters -->
+                <div class="col-lg-3 col-md-4">
+                    <div class="sidebar sticky-top" style="top: 100px;">
+                        <!-- Search -->
+                        <div class="mb-4">
+                            <h6 class="filter-group-title fw-bold">Search</h6>
+                            <div class="input-group">
+                                <input type="text" class="form-control border-end-0" placeholder="Search treats...">
+                                <button class="btn btn-outline-secondary border-start-0 bg-white text-primary-custom" type="button"><i class="fas fa-search"></i></button>
+                            </div>
+                        </div>
+
+                        <!-- Sort By -->
+                        <div class="mb-4">
+                            <h6 class="filter-group-title fw-bold">Sort By</h6>
+                            <select class="form-select">
+                                <option selected>Latest Added</option>
+                                <option value="1">Price: Low to High</option>
+                                <option value="2">Price: High to Low</option>
+                                <option value="3">Popularity</option>
+                            </select>
+                        </div>
+
+                        <!-- Categories -->
+                        <div class="mb-4">
+                            <h6 class="filter-group-title fw-bold">Categories</h6>
+                            <div class="form-check mb-1">
+                                <input class="form-check-input" type="checkbox" value="" id="cat1" checked>
+                                <label class="form-check-label" for="cat1">All Treats</label>
+                            </div>
+                            <div class="form-check mb-1">
+                                <input class="form-check-input" type="checkbox" value="" id="cat2">
+                                <label class="form-check-label" for="cat2">Cakes & Tarts</label>
+                            </div>
+                            <div class="form-check mb-1">
+                                <input class="form-check-input" type="checkbox" value="" id="cat3">
+                                <label class="form-check-label" for="cat3">Cookies & Biscuits</label>
+                            </div>
+                            <div class="form-check mb-1">
+                                <input class="form-check-input" type="checkbox" value="" id="cat4">
+                                <label class="form-check-label" for="cat4">Breads</label>
+                            </div>
+                        </div>
+
+                        <!-- Enhanced Price Filter -->
+                        <div class="mb-4">
+                            <h6 class="filter-group-title fw-bold">Max Price</h6>
+                            <div class="price-display">
+                                Under ₹<span id="priceValue">1500</span>
+                            </div>
+                            <input type="range" class="form-range" min="100" max="3000" step="50" value="1500" id="priceRange" oninput="document.getElementById('priceValue').innerText = this.value">
+                            <div class="d-flex justify-content-between mt-1">
+                                <span class="small text-muted">₹100</span>
+                                <span class="small text-muted">₹3000+</span>
+                            </div>
+                        </div>
+                        
+                        <button class="btn btn-primary-custom w-100 mt-2">Apply Filters</button>
+                    </div>
+                </div>
+
+                <!-- Products Grid -->
+                <div class="col-lg-9 col-md-8">
+                    <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4 mb-5">
+                        
+                        <!-- Item 1 -->
+                        <div class="col">
+                            <div class="product-card">
+                                <img src="https://images.unsplash.com/photo-1565958011703-44f9829ba187?auto=format&fit=crop&w=500&q=80" alt="Strawberry Cake">
+                                <div class="p-4 flex-grow-1 d-flex flex-column">
+                                    <h5 class="fw-bold text-secondary-custom mb-1">Strawberry Tart</h5>
+                                    <p class="small text-muted flex-grow-1">Fresh seasonal strawberries with vanilla bean pastry cream.</p>
+                                    <div class="d-flex justify-content-between align-items-center mt-3 pt-3 border-top">
+                                        <span class="fs-5 fw-bold text-primary-custom">₹ 799</span>
+                                        <a href="#" class="btn btn-sm btn-whatsapp px-3"><i class="fab fa-whatsapp"></i> Inquiry</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Item 2 -->
+                        <div class="col">
+                            <div class="product-card">
+                                <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=500&q=80" alt="Chocolate Truffle">
+                                <div class="p-4 flex-grow-1 d-flex flex-column">
+                                    <h5 class="fw-bold text-secondary-custom mb-1">Dark Truffle Cake</h5>
+                                    <p class="small text-muted flex-grow-1">Rich 70% dark chocolate ganache, silky and moist.</p>
+                                    <div class="d-flex justify-content-between align-items-center mt-3 pt-3 border-top">
+                                        <span class="fs-5 fw-bold text-primary-custom">₹ 649</span>
+                                        <a href="#" class="btn btn-sm btn-whatsapp px-3"><i class="fab fa-whatsapp"></i> Inquiry</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Item 3 -->
+                        <div class="col">
+                            <div class="product-card">
+                                <img src="https://images.unsplash.com/photo-1499636136210-654cb2df2c5c?auto=format&fit=crop&w=500&q=80" alt="Cookies">
+                                <div class="p-4 flex-grow-1 d-flex flex-column">
+                                    <h5 class="fw-bold text-secondary-custom mb-1">Almond Naankhatai</h5>
+                                    <p class="small text-muted flex-grow-1">Traditional Indian shortbread cookies with almonds.</p>
+                                    <div class="d-flex justify-content-between align-items-center mt-3 pt-3 border-top">
+                                        <span class="fs-5 fw-bold text-primary-custom">₹ 349</span>
+                                        <a href="#" class="btn btn-sm btn-whatsapp px-3"><i class="fab fa-whatsapp"></i> Inquiry</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Item 4 -->
+                        <div class="col">
+                            <div class="product-card">
+                                <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=500&q=80" alt="Bread">
+                                <div class="p-4 flex-grow-1 d-flex flex-column">
+                                    <h5 class="fw-bold text-secondary-custom mb-1">Artisan Sourdough</h5>
+                                    <p class="small text-muted flex-grow-1">Crispy crust with a soft, airy interior. Baked daily.</p>
+                                    <div class="d-flex justify-content-between align-items-center mt-3 pt-3 border-top">
+                                        <span class="fs-5 fw-bold text-primary-custom">₹ 249</span>
+                                        <a href="#" class="btn btn-sm btn-whatsapp px-3"><i class="fab fa-whatsapp"></i> Inquiry</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Pager (Pagination) -->
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                            </li>
+                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">Next</a>
+                            </li>
+                        </ul>
+                    </nav>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact" class="bg-secondary-custom text-light-cream py-5 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <h5 class="fw-bold text-primary-custom">BlumeTreats</h5>
+                    <p>Homemade with love, using only the finest ingredients. Every treat tells a story of passion and freshness.</p>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <h5 class="fw-bold text-primary-custom">Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-light-cream text-decoration-none">Full Menu</a></li>
+                        <li><a href="index3.html#why-us" class="text-light-cream text-decoration-none">Our Promise</a></li>
+                        <li><a href="#" class="text-light-cream text-decoration-none">Order Policy</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <h5 class="fw-bold text-primary-custom">Connect With Us</h5>
+                    <p><i class="fas fa-envelope me-2"></i> hello@blumetreats.com</p>
+                    <p><i class="fas fa-phone me-2"></i> (555) 123-4567</p>
+                    <div class="social-icons fs-4">
+                        <a href="#" class="text-light-cream me-3"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-light-cream me-3"><i class="fab fa-facebook-f"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center pt-3 border-top border-primary-custom">
+                <p class="text-sm mb-0">&copy; 2024 BlumeTreats. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
