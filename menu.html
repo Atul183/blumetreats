@@ -105,6 +105,14 @@
             content: ''; position: absolute; bottom: 0; left: 20%; width: 60%; height: 3px; background-color: var(--bs-primary);
         }
 
+         .info-notice {
+            background-color: white;
+            border: 1px solid rgba(163, 121, 79, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
         /* Floating Actions */
         #floating-cart-btn {
             position: fixed;
@@ -237,6 +245,19 @@
         <div class="text-center py-4 mb-2">
             <h1 class="display-5 fw-bold">The Blume Menu</h1>
             <p class="lead text-muted mx-auto" style="max-width: 700px;">Artisanal bakes delivered to your doorstep. Choose your size and flavor, add to cart, and order via WhatsApp.</p>
+        </div>
+
+        <div class="container">
+        <!-- New Information Message -->
+            <div class="info-notice shadow-sm">
+                <h5 class="fw-bold mb-2">Freshly Baked for You</h5>
+                <p class="mb-3">To ensure you receive the highest quality, we bake every order from scratch. <strong>Please place your order at least 24 hours in advance.</strong></p>
+                <div class="d-flex flex-wrap gap-md-4 border-top pt-2">
+                    <p class="mb-1 small"><strong>Delivery:</strong> Orders are delivered by EOD the following day.</p>
+                    <p class="mb-1 small"><strong>Service Area:</strong> Currently serving and delivering within <strong>Indore</strong> only.</p>
+                    <p class="mb-0 small text-muted italic"><em>Other cities coming soon!</em></p>
+                </div>
+            </div>
         </div>
 
         <section id="cakes" class="menu-section mb-5">
