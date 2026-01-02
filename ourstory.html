@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Story | BlumeTreats</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+        :root {
+            --bs-primary: #A3794F;
+            --bs-secondary: #6C5541;
+            --bs-light-cream: #F8F4E3;
+            --font-heading: 'Playfair Display', serif;
+            --font-body: 'Lato', sans-serif;
+            --whatsapp-green: #25D366;
+            --instagram-pink: #E1306C;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--bs-light-cream);
+            color: var(--bs-secondary);
+            line-height: 1.7;
+        }
+
+        h1, h2, h3, h5, .navbar-brand {
+            font-family: var(--font-heading);
+            color: var(--bs-secondary);
+        }
+
+        .text-primary-custom { color: var(--bs-primary) !important; }
+        .bg-primary-custom { background-color: var(--bs-primary) !important; }
+
+        /* Navbar */
+        .navbar {
+            padding-top: 0.8rem;
+            padding-bottom: 0.8rem;
+            background-color: var(--bs-light-cream) !important;
+            border-bottom: 1px solid rgba(163, 121, 79, 0.1);
+        }
+
+        .navbar-brand-logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            text-decoration: none;
+            font-family: var(--font-heading);
+            color: var(--bs-secondary);
+        }
+        .navbar-brand-logo i { color: var(--bs-primary); margin-right: 0.5rem; }
+
+        /* Hero Section */
+        .story-hero {
+            padding: 80px 0 60px;
+            background: linear-gradient(rgba(248, 244, 227, 0.9), rgba(248, 244, 227, 0.9)), 
+                        url('https://images.unsplash.com/photo-1556910103-1c02745aae4d?q=80&w=2070') center/cover;
+            text-align: center;
+        }
+
+        /* Feature Cards */
+        .feature-box {
+            background: white;
+            padding: 35px 25px;
+            border-radius: 20px;
+            border: 1px solid rgba(163, 121, 79, 0.1);
+            height: 100%;
+            transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .feature-box:hover {
+            transform: translateY(-10px);
+        }
+        .feature-icon {
+            font-size: 2.2rem;
+            color: var(--bs-primary);
+            margin-bottom: 15px;
+        }
+
+        /* Narrative Section */
+        .story-content {
+            font-size: 1.15rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .section-divider {
+            width: 60px;
+            height: 3px;
+            background: var(--bs-primary);
+            margin: 2rem auto;
+        }
+
+        /* Floating Socials */
+        .floating-social {
+            position: fixed; right: 20px; bottom: 30px; display: flex; flex-direction: column; gap: 12px; z-index: 1050;
+        }
+        .social-circle {
+            width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white !important; font-size: 20px; text-decoration: none;
+        }
+        .bg-whatsapp { background-color: var(--whatsapp-green); }
+        .bg-instagram { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
+
+        footer {
+            background-color: var(--bs-secondary);
+            color: var(--bs-light-cream);
+            padding: 60px 0 30px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Nav Bar -->
+    <nav id="mainNav" class="navbar navbar-expand-lg sticky-top">
+        <div class="container">
+            <a class="navbar-brand-logo" href="index.html">
+                <i class="fas fa-cookie-bite"></i> BlumeTreats
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link fw-bold px-3" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link fw-bold px-3" href="menu.html">Menu</a></li>
+                    <li class="nav-item"><a class="nav-link fw-bold px-3 text-primary-custom" href="our_story.html">Our Story</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="story-hero">
+        <div class="container">
+            <span class="text-uppercase fw-bold text-primary-custom ls-2">The Heart of Baking</span>
+            <h1 class="display-4 fw-bold mt-2">Where Flavour Blooms <br> in Every Bite</h1>
+            <div class="section-divider"></div>
+        </div>
+    </header>
+
+    <!-- Main Content Narrative -->
+    <section class="py-5">
+        <div class="container text-center">
+            <div class="story-content px-3">
+                <p class="mb-4">
+                    At <strong>BlumeTreats</strong>, we believe that the best bakery isn’t a factory; 
+                    it’s a home kitchen filled with warmth, passion, and the scent of something delicious in the oven.
+                </p>
+                <p class="mb-5">
+                    We are a boutique home bakery dedicated to the art of oven-baked perfection, 
+                    crafting treats that taste like memories and feel like a hug.
+                </p>
+                
+                <div class="row align-items-center my-5">
+                    <div class="col-md-6 mb-4 mb-md-0 px-4">
+                        <img src="images/Gemini_Generated_Image_p3141yp3141yp314.png" alt="Artisan Baking" class="img-fluid rounded-4 shadow">
+                    </div>
+                    <div class="col-md-6 text-start ps-md-5 px-4">
+                        <h2 class="fw-bold mb-4">Authentic Artisan Joy</h2>
+                        <p>
+                            In a world of mass-produced food, we are bringing back the authentic joy of artisan baking. 
+                            From the melt-in-your-mouth nostalgia of traditional Naan Khatai and buttery cookies to 
+                            the celebration-ready elegance of our custom cakes and pastries, everything we create 
+                            is a <strong>labor of love</strong>.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us -->
+    <section class="py-5 bg-white">
+        <div class="container text-center">
+            <h2 class="display-6 fw-bold mb-4">Why Choose BlumeTreats?</h2>
+            <p class="text-muted mb-5">Because home-baked means heart-crafted.</p>
+            
+            <div class="row g-4 justify-content-center">
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-box shadow-sm">
+                        <i class="fas fa-leaf feature-icon"></i>
+                        <h4 class="fw-bold">Freshness First</h4>
+                        <p class="text-muted small">We don't cut corners. We use only premium, fresh ingredients—real butter, quality flour, and fresh produce. No mysterious preservatives, just real food.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-box shadow-sm">
+                        <i class="fas fa-hand-sparkles feature-icon"></i>
+                        <h4 class="fw-bold">Impeccable Hygiene</h4>
+                        <p class="text-muted small">Our kitchen is our sanctuary. We adhere to the strictest standards of cleanliness, giving you peace of mind knowing exactly where your food comes from.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-box shadow-sm">
+                        <i class="fas fa-heart feature-icon"></i>
+                        <h4 class="fw-bold">Crafted For You</h4>
+                        <p class="text-muted small">Because we bake in small batches, we can tailor our creations to your needs. Whether it's a customized birthday cake or a specific dietary request.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-5">
+        <div class="container text-center py-5">
+            <h3 class="fw-bold mb-4">Ready for something special?</h3>
+            <a href="menu.html" class="btn btn-lg px-5 py-3 rounded-pill fw-bold bg-primary-custom text-white shadow-sm">Browse the Menu</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container text-center">
+            <a class="navbar-brand-logo justify-content-center text-white mb-4" href="index.html">
+                <i class="fas fa-cookie-bite"></i> BlumeTreats
+            </a>
+            <p class="mb-4">Crafting memories, one bake at a time.</p>
+            <div class="d-flex justify-content-center gap-4 mb-4">
+                <a href="#" class="text-white fs-4"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="text-white fs-4"><i class="fab fa-whatsapp"></i></a>
+            </div>
+            <hr class="opacity-25">
+            <p class="small mb-0 opacity-50">&copy; 2024 BlumeTreats. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Floating Socials -->
+    <div class="floating-social">
+        <a href="https://wa.me/918601154561" target="_blank" class="social-circle bg-whatsapp shadow-lg"><i class="fab fa-whatsapp"></i></a>
+        <a href="https://www.instagram.com/blumetreats" target="_blank" class="social-circle bg-instagram shadow-lg"><i class="fab fa-instagram"></i></a>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

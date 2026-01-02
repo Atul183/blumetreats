@@ -68,18 +68,25 @@
             font-size: 0.65rem;
         }
 
-        /* STICKY SYNC: Dynamic top positioning via JS */
+        /* Category Bar Styling - Precise sticky */
         .sticky-tabs {
             position: sticky;
-            top: 0; /* Fallback, adjusted by JS */
+            top: 0;
             z-index: 1020;
             background-color: var(--bs-light-cream) !important;
             border-bottom: 1px solid rgba(163, 121, 79, 0.1);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+            margin-top: 0 !important;
         }
 
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        .category-tab-container {
+            display: flex;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            padding: 0;
+        }
 
         .category-tab {
             padding: 1rem 1.25rem;
@@ -91,6 +98,7 @@
             background: none;
             white-space: nowrap;
             position: relative;
+            flex-shrink: 0;
         }
         .category-tab.active { color: var(--bs-primary); }
         .category-tab.active::after {
@@ -137,7 +145,6 @@
         .bg-whatsapp { background-color: var(--whatsapp-green); }
         .bg-instagram { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
 
-        /* Product Card */
         .product-card {
             background-color: #ffffff;
             border: 1px solid rgba(163, 121, 79, 0.1);
@@ -147,9 +154,31 @@
             transition: transform 0.3s;
         }
         .product-card:hover { transform: translateY(-5px); }
-        .product-card img { height: 180px; object-fit: cover; width: 100%; }
+        .product-card img { height: 200px; object-fit: cover; width: 100%; }
 
-        /* Smooth scroll margin adjusted via JS logic but fallback here */
+        .btn-add-to-cart {
+            background-color: var(--bs-primary);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 8px 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .btn-add-to-cart:hover {
+            background-color: var(--bs-secondary);
+            color: white;
+            transform: scale(1.02);
+        }
+
+        .form-select-sm {
+            border: 1px solid rgba(163, 121, 79, 0.2);
+            color: var(--bs-secondary);
+            font-size: 0.8rem;
+            border-radius: 8px;
+            background-color: var(--bs-light-cream);
+        }
+
         .menu-section { scroll-margin-top: 150px; padding-top: 40px; }
         .section-title { position: relative; font-weight: 700; margin-bottom: 2rem; }
         .section-title::after {
@@ -157,38 +186,33 @@
         }
 
         .cart-item-img { width: 45px; height: 45px; object-fit: cover; border-radius: 6px; }
+        .text-sm { font-size: 0.875rem; }
     </style>
 </head>
 <body>
 
-    <!-- Nav Bar -->
     <nav id="mainNav" class="navbar navbar-expand-lg sticky-top">
         <div class="container">
             <a class="navbar-brand-logo" href="index.html">
                 <i class="fas fa-cookie-bite"></i> BlumeTreats
             </a>
-            
             <div class="d-flex align-items-center">
-                <!-- Mobile Cart -->
-                <button class="btn btn-link cart-trigger position-relative d-lg-none me-2" data-bs-toggle="modal" data-bs-target="#cartModal">
-                    <i class="fas fa-shopping-basket fs-4"></i>
+                <button class="btn btn-link cart-trigger position-relative d-lg-none me-2 p-1" data-bs-toggle="modal" data-bs-target="#cartModal">
+                    <i class="fas fa-shopping-cart fs-4"></i>
                     <span id="cart-count-mobile" class="position-absolute top-0 start-100 translate-middle badge rounded-pill cart-badge" style="display:none;">0</span>
                 </button>
-                
                 <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                     <span class="navbar-toggler-icon"></span>
                 </button>
             </div>
-
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto align-items-center">
                     <li class="nav-item"><a class="nav-link fw-bold px-3" href="index.html">Home</a></li>
                     <li class="nav-item"><a class="nav-link fw-bold px-3 text-primary-custom" href="#">Menu</a></li>
-                    <li class="nav-item"><a class="nav-link fw-bold px-3" href="index.html#story">Our Story</a></li>
-                    <li class="nav-item"><a class="nav-link fw-bold px-3" href="index.html#story">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link fw-bold px-3" href="ourstory.html">Our Story</a></li>
                     <li class="nav-item d-none d-lg-block">
                         <button class="btn btn-link cart-trigger position-relative ms-2" data-bs-toggle="modal" data-bs-target="#cartModal">
-                            <i class="fas fa-shopping-basket fs-5"></i>
+                            <i class="fas fa-shopping-cart fs-5"></i>
                             <span id="cart-count-nav" class="position-absolute top-0 start-100 translate-middle badge rounded-pill cart-badge" style="display:none;">0</span>
                         </button>
                     </li>
@@ -197,162 +221,458 @@
         </div>
     </nav>
 
-    <!-- Category Tabs -->
     <nav id="categoryBar" class="sticky-tabs">
         <div class="container">
-            <div class="d-flex overflow-x-auto hide-scrollbar">
+            <div id="tab-wrapper" class="category-tab-container hide-scrollbar">
                 <button data-target="cakes" class="category-tab active">Cakes</button>
-                <button data-target="cookies" class="category-tab">Cookies</button>
+                <button data-target="khatai" class="category-tab">Naan-Khatai & Cookies</button>
+                <button data-target="millets" class="category-tab">Millet Cookies</button>
                 <button data-target="donuts" class="category-tab">Donuts</button>
-                <button data-target="cheesecakes" class="category-tab">Cheesecakes</button>
-                <button data-target="khatai" class="category-tab">Naan Khatai</button>
-                <button data-target="cupcakes" class="category-tab">Cupcakes</button>
+                <!-- <button data-target="khatai" class="category-tab">Naan Khatai</button> -->
             </div>
         </div>
     </nav>
 
-    <!-- Floating Actions -->
-    <button id="floating-cart-btn" data-bs-toggle="modal" data-bs-target="#cartModal">
-        <i class="fas fa-shopping-basket me-2"></i> Cart (<span id="cart-count-float">0</span>)
-    </button>
-
-    <div class="floating-social">
-        <a href="https://wa.me/918601154561" target="_blank" class="social-circle bg-whatsapp">
-            <i class="fab fa-whatsapp"></i>
-        </a>
-        <a href="https://www.instagram.com/blumetreats" target="_blank" class="social-circle bg-instagram">
-            <i class="fab fa-instagram"></i>
-        </a>
-    </div>
-
-    <!-- Main Content -->
     <main class="container py-4">
         <div class="text-center py-4 mb-2">
             <h1 class="display-5 fw-bold">The Blume Menu</h1>
-            <p class="lead text-muted mx-auto" style="max-width: 700px;">Explore our curated selection of artisanal bakes. Add your favorites to the cart and order via WhatsApp.</p>
+            <p class="lead text-muted mx-auto" style="max-width: 700px;">Artisanal bakes delivered to your doorstep. Choose your size and flavor, add to cart, and order via WhatsApp.</p>
         </div>
 
         <section id="cakes" class="menu-section mb-5">
-            <h2 class="section-title">Artisan Cakes</h2>
+            <h2 class="section-title">Signature Artisan Cakes (Eggless)</h2>
             <div class="row g-4">
                 <div class="col-lg-4 col-md-6">
                     <div class="product-card">
-                        <img src="https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=600" alt="Strawberry Dream">
+                        <img src="images/pineapple.jpeg" alt="Black Forest">
                         <div class="p-3">
-                            <div class="d-flex justify-content-between mb-1">
-                                <h6 class="fw-bold mb-0">Strawberry Dream</h6>
-                                <span class="text-primary-custom fw-bold">₹850</span>
+                            <h6 class="fw-bold mb-1">Pineapple Classic </h6>
+                            <p class="text-muted small mb-2">Refreshing layers of tropical sweetness and fresh cream.</p>
+                            <div class="d-flex align-items-center justify-content-between mb-3">
+                                <select class="form-select form-select-sm w-50" id="weight-Pineapple" onchange="updatePrice('Pineapple')">
+                                    <option value="450" data-weight="1/2 kg">1/2 kg - ₹450</option>
+                                    <option value="850" data-weight="1 kg">1 kg - ₹850</option>
+                                </select>
+                                <span class="fw-bold text-primary-custom" id="price-pineapple">₹450</span>
                             </div>
-                            <p class="text-muted small mb-3">Fresh seasonal strawberries & whipped cream.</p>
-                            <button onclick="addToCart('Strawberry Dream', 850, 'https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=100')" class="btn btn-outline-primary w-100 rounded-pill btn-sm">Add to Cart</button>
+                            <button onclick="handleAddToCart('Pineapple Classic', 'weight-Pineapple', 'images/pineapple.jpeg')" class="btn btn-add-to-cart w-100 btn-sm">Add to Cart</button>
                         </div>
                     </div>
                 </div>
+
                 <div class="col-lg-4 col-md-6">
                     <div class="product-card">
-                        <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=600" alt="Belgian Truffle">
+                        <img src="images/Gemini_Generated_Image_t19q0kt19q0kt19q.png" alt="Red Velvet">
                         <div class="p-3">
-                            <div class="d-flex justify-content-between mb-1">
-                                <h6 class="fw-bold mb-0">Belgian Truffle</h6>
-                                <span class="text-primary-custom fw-bold">₹1100</span>
+                            <h6 class="fw-bold mb-1">Royal Red Velvet</h6>
+                            <p class="text-muted small mb-2">Velvety crimson sponge with premium cream cheese frosting.</p>
+                            <div class="d-flex align-items-center justify-content-between mb-3">
+                                <select class="form-select form-select-sm w-50" id="weight-redvelvet" onchange="updatePrice('redvelvet')">
+                                    <option value="450" data-weight="1/2 kg">1/2 kg - ₹450</option>
+                                    <option value="850" data-weight="1 kg">1 kg - ₹850</option>
+                                </select>
+                                <span class="fw-bold text-primary-custom" id="price-redvelvet">₹450</span>
                             </div>
-                            <p class="text-muted small mb-3">Rich ganache with moist cocoa sponge.</p>
-                            <button onclick="addToCart('Belgian Truffle', 1100, 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=100')" class="btn btn-outline-primary w-100 rounded-pill btn-sm">Add to Cart</button>
+                            <button onclick="handleAddToCart('Royal Red Velvet', 'weight-redvelvet', 'images/Gemini_Generated_Image_t19q0kt19q0kt19q.png')" class="btn btn-add-to-cart w-100 btn-sm">Add to Cart</button>
                         </div>
                     </div>
                 </div>
+
                 <div class="col-lg-4 col-md-6">
                     <div class="product-card">
-                        <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=600" alt="Belgian Truffle">
+                        <img src="images/Gemini_Generated_Image_8dt19b8dt19b8dt1.png" alt="Black Forest">
                         <div class="p-3">
-                            <div class="d-flex justify-content-between mb-1">
-                                <h6 class="fw-bold mb-0">Belgian Truffle</h6>
-                                <span class="text-primary-custom fw-bold">₹1100</span>
+                            <h6 class="fw-bold mb-1">Classic Black Forest</h6>
+                            <p class="text-muted small mb-2">Rich chocolate sponge with whipped cream and tart cherries.</p>
+                            <div class="d-flex align-items-center justify-content-between mb-3">
+                                <select class="form-select form-select-sm w-50" id="weight-blackforest" onchange="updatePrice('blackforest')">
+                                    <option value="450" data-weight="1/2 kg">1/2 kg - ₹450</option>
+                                    <option value="850" data-weight="1 kg">1 kg - ₹850</option>
+                                </select>
+                                <span class="fw-bold text-primary-custom" id="price-blackforest">₹450</span>
                             </div>
-                            <p class="text-muted small mb-3">Rich ganache with moist cocoa sponge.</p>
-                            <button onclick="addToCart('Belgian Truffle', 1100, 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=100')" class="btn btn-outline-primary w-100 rounded-pill btn-sm">Add to Cart</button>
+                            <button onclick="handleAddToCart('Classic Black Forest', 'weight-blackforest', 'images/Gemini_Generated_Image_8dt19b8dt19b8dt1.png')" class="btn btn-add-to-cart w-100 btn-sm">Add to Cart</button>
                         </div>
                     </div>
                 </div>
+
                 <div class="col-lg-4 col-md-6">
                     <div class="product-card">
-                        <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=600" alt="Belgian Truffle">
+                        <img src="images/Gemini_Generated_Image_b612dhb612dhb612.png" alt="Rasmalai Fusion Cake">
                         <div class="p-3">
-                            <div class="d-flex justify-content-between mb-1">
-                                <h6 class="fw-bold mb-0">Belgian Truffle</h6>
-                                <span class="text-primary-custom fw-bold">₹1100</span>
+                            <h6 class="fw-bold mb-1">Rasmalai Fusion Cake</h6>
+                            <p class="text-muted small mb-2">A fusion of traditional rasmalai with a modern cake twist.</p>
+                            <div class="d-flex align-items-center justify-content-between mb-3">
+                                <select class="form-select form-select-sm w-50" id="weight-rasmalai" onchange="updatePrice('rasmalai')">
+                                    <option value="450" data-weight="1/2 kg">1/2 kg - ₹450</option>
+                                    <option value="850" data-weight="1 kg">1 kg - ₹850</option>
+                                </select>
+                                <span class="fw-bold text-primary-custom" id="price-rasmalai">₹450</span>
                             </div>
-                            <p class="text-muted small mb-3">Rich ganache with moist cocoa sponge.</p>
-                            <button onclick="addToCart('Belgian Truffle', 1100, 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=100')" class="btn btn-outline-primary w-100 rounded-pill btn-sm">Add to Cart</button>
+                            <button onclick="handleAddToCart('Rasmalai Fusion Cake', 'weight-rasmalai', 'images/Gemini_Generated_Image_b612dhb612dhb612.png')" class="btn btn-add-to-cart w-100 btn-sm">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="product-card">
+                        <img src="images/Gemini_Generated_Image_los2sglos2sglos2.png" alt="Strawberry Summer Blush">
+                        <div class="p-3">
+                            <h6 class="fw-bold mb-1">Strawberry Summer Blush</h6>
+                            <p class="text-muted small mb-2">Fresh seasonal strawberries meet light, airy whipped cream.</p>
+                            <div class="d-flex align-items-center justify-content-between mb-3">
+                                <select class="form-select form-select-sm w-50" id="weight-strawberry" onchange="updatePrice('strawberry')">
+                                    <option value="450" data-weight="1/2 kg">1/2 kg - ₹450</option>
+                                    <option value="850" data-weight="1 kg">1 kg - ₹850</option>
+                                </select>
+                                <span class="fw-bold text-primary-custom" id="price-strawberry">₹450</span>
+                            </div>
+                            <button onclick="handleAddToCart('Strawberry Summer Blush', 'weight-strawberry', 'images/Gemini_Generated_Image_los2sglos2sglos2.png')" class="btn btn-add-to-cart w-100 btn-sm">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="product-card">
+                        <img src="images/Gemini_Generated_Image_fnbeshfnbeshfnbe.png" alt="Wild Blueberry Bliss">
+                        <div class="p-3">
+                            <h6 class="fw-bold mb-1">Wild Blueberry Bliss</h6>
+                            <p class="text-muted small mb-2">Tangy blueberry compote layered between smooth vanilla sponge.</p>
+                            <div class="d-flex align-items-center justify-content-between mb-3">
+                                <select class="form-select form-select-sm w-50" id="weight-blueberry" onchange="updatePrice('blueberry')">
+                                    <option value="450" data-weight="1/2 kg">1/2 kg - ₹450</option>
+                                    <option value="850" data-weight="1 kg">1 kg - ₹850</option>
+                                </select>
+                                <span class="fw-bold text-primary-custom" id="price-blueberry">₹450</span>
+                            </div>
+                            <button onclick="handleAddToCart('Wild Blueberry Bliss', 'weight-blueberry', 'images/Gemini_Generated_Image_fnbeshfnbeshfnbe.png')" class="btn btn-add-to-cart w-100 btn-sm">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="product-card">
+                        <img src="images/Gemini_Generated_Image_yfrp32yfrp32yfrp.png" alt="Mango Passion Paradise">
+                        <div class="p-3">
+                            <h6 class="fw-bold mb-1">Mango Passion Paradise</h6>
+                            <p class="text-muted small mb-2">Sun-ripened mango pulp and cream — a tropical dream in every bite.</p>
+                            <div class="d-flex align-items-center justify-content-between mb-3">
+                                <select class="form-select form-select-sm w-50" id="weight-mango" onchange="updatePrice('mango')">
+                                    <option value="450" data-weight="1/2 kg">1/2 kg - ₹450</option>
+                                    <option value="850" data-weight="1 kg">1 kg - ₹850</option>
+                                </select>
+                                <span class="fw-bold text-primary-custom" id="price-mango">₹450</span>
+                            </div>
+                            <button onclick="handleAddToCart('Mango Passion Paradise', 'weight-mango', 'images/Gemini_Generated_Image_yfrp32yfrp32yfrp.png')" class="btn btn-add-to-cart w-100 btn-sm">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="product-card">
+                        <img src="images/Gemini_Generated_Image_e5mstie5mstie5ms.png" alt="Chocolate Truffle">
+                        <div class="p-3">
+                            <h6 class="fw-bold mb-1">Belgian Chocolate Truffle</h6>
+                            <p class="text-muted small mb-2">Pure indulgence with dark chocolate ganache.</p>
+                            <div class="d-flex align-items-center justify-content-between mb-3">
+                                <select class="form-select form-select-sm w-50" id="weight-truffle" onchange="updatePrice('truffle')">
+                                    <option value="450" data-weight="1/2 kg">1/2 kg - ₹450</option>
+                                    <option value="850" data-weight="1 kg">1 kg - ₹850</option>
+                                </select>
+                                <span class="fw-bold text-primary-custom" id="price-truffle">₹450</span>
+                            </div>
+                            <button onclick="handleAddToCart('Belgian Chocolate Truffle', 'weight-truffle', 'images/Gemini_Generated_Image_e5mstie5mstie5ms.png')" class="btn btn-add-to-cart w-100 btn-sm">Add to Cart</button>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="cookies" class="menu-section mb-5">
-            <h2 class="section-title">Gourmet Cookies</h2>
+        <section id="khatai" class="menu-section mb-5">
+            <h2 class="section-title">Naan Khatai & Cookies</h2>
             <div class="row g-4">
                 <div class="col-lg-4 col-md-6">
                     <div class="product-card">
-                        <img src="https://images.unsplash.com/photo-1499636136210-6f4ee915583e?w=600" alt="Choco Chunk">
+                        <img src="images/Gemini_Generated_Image_hqh4sshqh4sshqh4.png" alt="Traditional Desi Ghee Naan-Khatai">
                         <div class="p-3">
-                            <div class="d-flex justify-content-between mb-1">
-                                <h6 class="fw-bold mb-0">Choco Chunk</h6>
-                                <span class="text-primary-custom fw-bold">₹450</span>
+                            <h6 class="fw-bold mb-1">Traditional Desi Ghee Naan-Khatai</h6>
+                            <p class="text-muted small mb-2">Melt-in-mouth heritage cookies made with pure ghee.</p>
+                            <div class="d-flex align-items-center justify-content-between mb-3">
+                                <select class="form-select form-select-sm w-50" id="weight-naankhatai" onchange="updatePrice('naankhatai')">
+                                    <option value="220" data-weight="250 grm">250 grm - ₹220</option>
+                                    <option value="420" data-weight="1/2 kg">1/2 kg - ₹420</option>
+                                    <option value="800" data-weight="1 kg">1 kg - ₹800</option>
+                                </select>
+                                <span class="fw-bold text-primary-custom" id="price-naankhatai">₹220</span>
                             </div>
-                            <p class="text-muted small mb-3">Box of 6 signature chunky cookies.</p>
-                            <button onclick="addToCart('Choco Chunk', 450, 'https://images.unsplash.com/photo-1499636136210-6f4ee915583e?w=100')" class="btn btn-outline-primary w-100 rounded-pill btn-sm">Add to Cart</button>
+                            <button onclick="handleAddToCart('Traditional Desi Ghee Naan-Khatai', 'weight-naankhatai', 'images/Gemini_Generated_Image_hqh4sshqh4sshqh4.png')" class="btn btn-add-to-cart w-100 btn-sm">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="product-card">
+                        <img src="images/Gemini_Generated_Image_jfmn9njfmn9njfmn.png" alt="Classic Choco Chip Cookies">
+                        <div class="p-3">
+                            <h6 class="fw-bold mb-1">Classic Choco Chip Cookies</h6>
+                            <p class="text-muted small mb-2">Crispy edges, soft centers, and plenty of chips.</p>
+                            <div class="d-flex align-items-center justify-content-between mb-3">
+                                <select class="form-select form-select-sm w-50" id="weight-chocochipcookies" onchange="updatePrice('chocochipcookies')">
+                                    <option value="300" data-weight="1/2 kg">1/2 kg - ₹300</option>
+                                    <option value="600" data-weight="1 kg">1 kg - ₹600</option>
+                                </select>
+                                <span class="fw-bold text-primary-custom" id="price-chocochipcookies">₹300</span>
+                            </div>
+                            <button onclick="handleAddToCart('Classic Choco Chip Cookies', 'weight-chocochipcookies', 'images/Gemini_Generated_Image_jfmn9njfmn9njfmn.png')" class="btn btn-add-to-cart w-100 btn-sm">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="product-card">
+                        <img src="images/Gemini_Generated_Image_r8c8jzr8c8jzr8c8.png" alt="Jeera Crunch">
+                        <div class="p-3">
+                            <h6 class="fw-bold mb-1">Jeera Crunch Cookies</h6>
+                            <p class="text-muted small mb-2">The perfect salty-sweet companion for your 'kadak' chai.</p>
+                            <div class="d-flex align-items-center justify-content-between mb-3">
+                                <select class="form-select form-select-sm w-50" id="weight-jeeracrunchcookies" onchange="updatePrice('jeeracrunchcookies')">
+                                    <option value="300" data-weight="1/2 kg">1/2 kg - ₹300</option>
+                                    <option value="600" data-weight="1 kg">1 kg - ₹600</option>
+                                </select>
+                                <span class="fw-bold text-primary-custom" id="price-jeeracrunchcookies">₹300</span>
+                            </div>
+                            <button onclick="handleAddToCart('Jeera Crunch Cookies', 'weight-jeeracrunchcookies', 'images/Gemini_Generated_Image_r8c8jzr8c8jzr8c8.png')" class="btn btn-add-to-cart w-100 btn-sm">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="product-card">
+                        <img src="images/Gemini_Generated_Image_9uuaac9uuaac9uua.png" alt="Healthy Oats Cookies">
+                        <div class="p-3">
+                            <h6 class="fw-bold mb-1">Healthy Oats Cookies</h6>
+                            <p class="text-muted small mb-2">Wholesome, fiber-rich oats cookies.</p>
+                            <div class="d-flex align-items-center justify-content-between mb-3">
+                                <select class="form-select form-select-sm w-50" id="weight-healthyoatscookies" onchange="updatePrice('healthyoatscookies')">
+                                    <option value="400" data-weight="1/2 kg">1/2 kg - ₹400</option>
+                                    <option value="800" data-weight="1 kg">1 kg - ₹800</option>
+                                </select>
+                                <span class="fw-bold text-primary-custom" id="price-healthyoatscookies">₹400</span>
+                            </div>
+                            <button onclick="handleAddToCart('Healthy Oats Cookies', 'weight-healthyoatscookies', 'images/Gemini_Generated_Image_9uuaac9uuaac9uua.png')" class="btn btn-add-to-cart w-100 btn-sm">Add to Cart</button>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
+
+        <section id="millets" class="menu-section mb-5">
+            <h2 class="section-title"> Healthy Millet Collection (Guilt-Free)</h2>
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="product-card">
+                        <img src="images/Gemini_Generated_Image_d006kad006kad006.png" alt="Choco Chunk Millet Cookies">
+                        <div class="p-3">
+                            <h6 class="fw-bold mb-1">Choco Chunk Millet Cookies</h6>
+                            <p class="text-muted small mb-2">Power of millets meets the indulgence of dark chocolate chunks.</p>
+                            <div class="d-flex align-items-center justify-content-between mb-3">
+                                <select class="form-select form-select-sm w-50" id="weight-chocochunkmilletcookies" onchange="updatePrice('chocochunkmilletcookies')">
+                                    <option value="450" data-weight="1/2 kg">1/2 kg - ₹450</option>
+                                    <option value="850" data-weight="1 kg">1 kg - ₹850</option>
+                                </select>
+                                <span class="fw-bold text-primary-custom" id="price-chocochunkmilletcookies">₹450</span>
+                            </div>
+                            <button onclick="handleAddToCart('Choco Chunk Millet Cookies', 'weight-chocochunkmilletcookies', 'images/Gemini_Generated_Image_d006kad006kad006.png')" class="btn btn-add-to-cart w-100 btn-sm">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="product-card">
+                        <img src="images/Gemini_Generated_Image_xv3vv8xv3vv8xv3v.png" alt="Kodo Millet Super-Cookies">
+                        <div class="p-3">
+                            <h6 class="fw-bold mb-1">Kodo Millet Super-Cookies</h6>
+                            <p class="text-muted small mb-2">High-fiber Kodo grain cookies for a sustained energy boost.</p>
+                            <div class="d-flex align-items-center justify-content-between mb-3">
+                                <select class="form-select form-select-sm w-50" id="weight-kodomilletsupercookies" onchange="updatePrice('kodomilletsupercookies')">
+                                    <option value="450" data-weight="1/2 kg">1/2 kg - ₹450</option>
+                                    <option value="850" data-weight="1 kg">1 kg - ₹850</option>
+                                </select>
+                                <span class="fw-bold text-primary-custom" id="price-kodomilletsupercookies">₹450</span>
+                            </div>
+                            <button onclick="handleAddToCart('Kodo Millet Super-Cookies', 'weight-kodomilletsupercookies', 'images/Gemini_Generated_Image_xv3vv8xv3vv8xv3v.png')" class="btn btn-add-to-cart w-100 btn-sm">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="product-card">
+                        <img src="images/Gemini_Generated_Image_htstgdhtstgdhtst.png" alt="Buckwheat (Kuttu) Bliss">
+                        <div class="p-3">
+                            <h6 class="fw-bold mb-1">Buckwheat (Kuttu) Bliss</h6>
+                            <p class="text-muted small mb-2">Nutty and earthy cookies made from premium buckwheat flour.</p>
+                            <div class="d-flex align-items-center justify-content-between mb-3">
+                                <select class="form-select form-select-sm w-50" id="weight-buckwheatkuttu" onchange="updatePrice('buckwheatkuttu')">
+                                    <option value="450" data-weight="1/2 kg">1/2 kg - ₹450</option>
+                                    <option value="850" data-weight="1 kg">1 kg - ₹850</option>
+                                </select>
+                                <span class="fw-bold text-primary-custom" id="price-buckwheatkuttu">₹450</span>
+                            </div>
+                            <button onclick="handleAddToCart('Buckwheat (Kuttu) Bliss', 'weight-buckwheatkuttu', 'images/Gemini_Generated_Image_htstgdhtstgdhtst.png')" class="btn btn-add-to-cart w-100 btn-sm">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="product-card">
+                        <img src="images/Gemini_Generated_Image_jonhsbjonhsbjonh.png" alt="Salty Jeera Millet Crunch">
+                        <div class="p-3">
+                            <h6 class="fw-bold mb-1">Salty Jeera Millet Crunch</h6>
+                            <p class="text-muted small mb-2">A healthy, savory twist on the classic tea-time snack</p>
+                            <div class="d-flex align-items-center justify-content-between mb-3">
+                                <select class="form-select form-select-sm w-50" id="weight-jeeramilletcrunch" onchange="updatePrice('jeeramilletcrunch')">
+                                    <option value="450" data-weight="1/2 kg">1/2 kg - ₹450</option>
+                                    <option value="850" data-weight="1 kg">1 kg - ₹850</option>
+                                </select>
+                                <span class="fw-bold text-primary-custom" id="price-jeeramilletcrunch">₹450</span>
+                            </div>
+                            <button onclick="handleAddToCart('Salty Jeera Millet Crunch', 'weight-jeeramilletcrunch', 'images/Gemini_Generated_Image_jonhsbjonhsbjonh.png')" class="btn btn-add-to-cart w-100 btn-sm">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                 <div class="col-lg-4 col-md-6">
+                    <div class="product-card">
+                        <img src="images/Gemini_Generated_Image_am8226am8226am82.png" alt="Millet Ghee Naan Khatai">
+                        <div class="p-3">
+                            <h6 class="fw-bold mb-1">Millet Ghee Naan Khatai</h6>
+                            <p class="text-muted small mb-2">Traditional melt-in-mouth texture using Ragi and Jowar flour.</p>
+                            <div class="d-flex align-items-center justify-content-between mb-3">
+                                <select class="form-select form-select-sm w-50" id="weight-milletgheenaankhatai" onchange="updatePrice('milletgheenaankhatai')">
+                                    <option value="450" data-weight="1/2 kg">1/2 kg - ₹450</option>
+                                    <option value="850" data-weight="1 kg">1 kg - ₹850</option>
+                                </select>
+                                <span class="fw-bold text-primary-custom" id="price-milletgheenaankhatai">₹450</span>
+                            </div>
+                            <button onclick="handleAddToCart('Millet Ghee Naan Khatai', 'weight-milletgheenaankhatai', 'images/Gemini_Generated_Image_am8226am8226am82.png')" class="btn btn-add-to-cart w-100 btn-sm">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- <section id="cheesecakes" class="menu-section mb-5">
+            <h2 class="section-title">Cheesecakes</h2>
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="product-card">
+                        <img src="https://images.unsplash.com/photo-1533134242443-d4fd215305ad?w=600" alt="Blueberry">
+                        <div class="p-3">
+                            <h6 class="fw-bold mb-1">Blueberry Baked</h6>
+                            <p class="text-muted small mb-3">Creamy NY style cheesecake.</p>
+                            <button onclick="addToCart('Blueberry Cheesecake', 1200, 'https://images.unsplash.com/photo-1533134242443-d4fd215305ad?w=100')" class="btn btn-add-to-cart w-100 btn-sm">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section> -->
 
         <section id="donuts" class="menu-section mb-5">
-            <h2 class="section-title">Fluffy Donuts</h2>
+            <h2 class="section-title">Fluffy Donuts (Eggless)</h2>
             <div class="row g-4">
                 <div class="col-lg-4 col-md-6">
                     <div class="product-card">
-                        <img src="https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?w=600" alt="Classic Glaze">
+                        <img src="images/Gemini_Generated_Image_kbp5pzkbp5pzkbp5.png" alt="Nutella Dream">
                         <div class="p-3">
-                            <div class="d-flex justify-content-between mb-1">
-                                <h6 class="fw-bold mb-0">Classic Glaze</h6>
-                                <span class="text-primary-custom fw-bold">₹350</span>
+                            <h6 class="fw-bold mb-1">Nutella Dream</h6>
+                            <p class="text-muted small mb-2">Generously topped with creamy hazelnut spread.</p>
+                            <div class="d-flex align-items-center justify-content-between mb-3">
+                                <select class="form-select form-select-sm w-50" id="weight-netelladreamdonut" onchange="updatePrice('netelladreamdonut')">
+                                    <option value="50" data-weight="1 Piece">1 Piece - ₹50</option>
+                                    <option value="250" data-weight="Pack of 6">Pack of 6 - ₹250</option>
+                                </select>
+                                <span class="fw-bold text-primary-custom" id="price-netelladreamdonut">₹50</span>
                             </div>
-                            <p class="text-muted small mb-3">Box of 4 melt-in-mouth glazed donuts.</p>
-                            <button onclick="addToCart('Classic Glaze', 350, 'https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?w=100')" class="btn btn-outline-primary w-100 rounded-pill btn-sm">Add to Cart</button>
+                            <button onclick="handleAddToCart('Nutella Dream', 'weight-netelladreamdonut', 'images/Gemini_Generated_Image_kbp5pzkbp5pzkbp5.png')" class="btn btn-add-to-cart w-100 btn-sm">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="product-card">
+                        <img src="images/Gemini_Generated_Image_4okf3b4okf3b4okf.png" alt="Classic Chocolate Glaze Donut">
+                        <div class="p-3">
+                            <h6 class="fw-bold mb-1">Classic Chocolate Glaze</h6>
+                            <p class="text-muted small mb-2">Rich chocolate glaze with a soft, fluffy interior.</p>
+                            <div class="d-flex align-items-center justify-content-between mb-3">
+                                <select class="form-select form-select-sm w-50" id="weight-chocoglazedonut" onchange="updatePrice('chocoglazedonut')">
+                                    <option value="50" data-weight="1 Piece">1 Piece - ₹50</option>
+                                    <option value="250" data-weight="Pack of 6">Pack of 6 - ₹250</option>
+                                </select>
+                                <span class="fw-bold text-primary-custom" id="price-chocoglazedonut">₹50</span>
+                            </div>
+                            <button onclick="handleAddToCart('Classic Chocolate Glaze', 'weight-chocoglazedonut', 'images/Gemini_Generated_Image_4okf3b4okf3b4okf.png')" class="btn btn-add-to-cart w-100 btn-sm">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="product-card">
+                        <img src="images/Gemini_Generated_Image_wvvdzmwvvdzmwvvd.png" alt="White Chocolate Rose">
+                        <div class="p-3">
+                            <h6 class="fw-bold mb-1">White Chocolate Rose</h6>
+                            <p class="text-muted small mb-2">Elegant white chocolate with a hint of floral sweetness.</p>
+                            <div class="d-flex align-items-center justify-content-between mb-3">
+                                <select class="form-select form-select-sm w-50" id="weight-whitechocodonut" onchange="updatePrice('whitechocodonut')">
+                                    <option value="50" data-weight="1 Piece">1 Piece - ₹50</option>
+                                    <option value="250" data-weight="Pack of 6">Pack of 6 - ₹250</option>
+                                </select>
+                                <span class="fw-bold text-primary-custom" id="price-whitechocodonut">₹50</span>
+                            </div>
+                            <button onclick="handleAddToCart('White Chocolate Rose', 'weight-whitechocodonut', 'images/Gemini_Generated_Image_wvvdzmwvvdzmwvvd.png')" class="btn btn-add-to-cart w-100 btn-sm">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="product-card">
+                        <img src="images/Gemini_Generated_Image_4ng5d14ng5d14ng5.png" alt="Rainbow Sprinkle">
+                        <div class="p-3">
+                            <h6 class="fw-bold mb-1">Rainbow Sprinkle</h6>
+                            <p class="text-muted small mb-2">A colorful favorite for kids and the young at heart.</p>
+                            <div class="d-flex align-items-center justify-content-between mb-3">
+                                <select class="form-select form-select-sm w-50" id="weight-rainbowdonut" onchange="updatePrice('rainbowdonut')">
+                                    <option value="50" data-weight="1 Piece">1 Piece - ₹50</option>
+                                    <option value="250" data-weight="Pack of 6">Pack of 6 - ₹250</option>
+                                </select>
+                                <span class="fw-bold text-primary-custom" id="price-rainbowdonut">₹50</span>
+                            </div>
+                            <button onclick="handleAddToCart('Rainbow Sprinkle', 'weight-rainbowdonut', 'images/Gemini_Generated_Image_4ng5d14ng5d14ng5.png')" class="btn btn-add-to-cart w-100 btn-sm">Add to Cart</button>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="cheesecakes" class="menu-section mb-5">
-            <h2 class="section-title">New York Cheesecakes</h2>
+        <!-- <section id="khatai" class="menu-section mb-5">
+            <h2 class="section-title">Naan Khatai</h2>
             <div class="row g-4">
                 <div class="col-lg-4 col-md-6">
                     <div class="product-card">
-                        <img src="https://images.unsplash.com/photo-1533134242443-d4fd215305ad?w=600" alt="Blueberry Cheesecake">
+                        <img src="https://images.unsplash.com/photo-1621236304198-651a21733b09?w=600" alt="Khatai">
                         <div class="p-3">
-                            <div class="d-flex justify-content-between mb-1">
-                                <h6 class="fw-bold mb-0">Blueberry Bake</h6>
-                                <span class="text-primary-custom fw-bold">₹1200</span>
-                            </div>
-                            <p class="text-muted small mb-3">Creamy cheesecake topped with berry compote.</p>
-                            <button onclick="addToCart('Blueberry Bake', 1200, 'https://images.unsplash.com/photo-1533134242443-d4fd215305ad?w=100')" class="btn btn-outline-primary w-100 rounded-pill btn-sm">Add to Cart</button>
+                            <h6 class="fw-bold mb-1">Original Naan Khatai</h6>
+                            <p class="text-muted small mb-3">Traditional melt-in-mouth recipe.</p>
+                            <button onclick="addToCart('Naan Khatai', 250, 'https://images.unsplash.com/photo-1621236304198-651a21733b09?w=100')" class="btn btn-add-to-cart w-100 btn-sm">Add to Cart</button>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
-
-        <section id="khatai" class="menu-section mb-5"><h2 class="section-title">Naan Khatai</h2><p class="text-muted">Traditional buttery delights coming soon.</p></section>
-        <section id="cupcakes" class="menu-section mb-5"><h2 class="section-title">Cupcakes</h2><p class="text-muted">Frosty happiness coming soon.</p></section>
-
+        </section> -->
     </main>
 
-    <!-- Cart Modal -->
+    <button id="floating-cart-btn" data-bs-toggle="modal" data-bs-target="#cartModal">
+        <i class="fas fa-shopping-cart me-2"></i> Cart (<span id="cart-count-float">0</span>)
+    </button>
+
+    <div class="floating-social">
+        <a href="https://wa.me/918601154561" target="_blank" class="social-circle bg-whatsapp"><i class="fab fa-whatsapp"></i></a>
+        <a href="https://www.instagram.com/blumetreats" target="_blank" class="social-circle bg-instagram"><i class="fab fa-instagram"></i></a>
+    </div>
+
     <div class="modal fade" id="cartModal" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content border-0" style="border-radius: 20px;">
@@ -379,7 +699,6 @@
         </div>
     </div>
 
-    
     <footer id="contact" class="bg-secondary-custom text-light-cream py-5 mt-5">
         <div class="container">
             <div class="row">
@@ -388,7 +707,6 @@
                     <p class="text-sm">Freshly Baked. Simply Better.</p>
                     <p class="text-sm">Crafting delicious, homemade delights for your table.</p>
                 </div>
-                
                 <div class="col-md-4 mb-4">
                     <h5 class="fw-bold text-primary-custom">Quick Links</h5>
                     <ul class="list-unstyled">
@@ -397,14 +715,13 @@
                         <li><a href="#" class="text-light-cream text-decoration-none">Order Policy</a></li>
                     </ul>
                 </div>
-
                 <div class="col-md-4 mb-4">
                     <h5 class="fw-bold text-primary-custom">Connect With Us</h5>
-                    <p><i class="fas fa-envelope me-2"></i> hello@blumetreats.com</p>
-                    <p><i class="fas fa-phone me-2"></i> (555) 123-4567</p>
+                    <!-- <p><i class="fas fa-envelope me-2"></i> hello@blumetreats.com</p>
+                    <p><i class="fas fa-phone me-2"></i> (555) 123-4567</p> -->
                     <div class="social-icons fs-4">
-                        <a href="#" class="text-light-cream me-3"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="text-light-cream me-3"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.instagram.com/blumetreats" class="text-light-cream me-3"><i class="fab fa-instagram"></i></a>
+                        <a href="https://wa.me/918601154561" class="text-light-cream me-3"><i class="fab fa-whatsapp"></i></a>
                     </div>
                 </div>
             </div>
@@ -418,29 +735,33 @@
     <script>
         let cart = [];
 
-        // GAP FIX LOGIC: Sync positions of Navbar and Category Bar
         function syncStickyPositions() {
-            const navbar = document.getElementById('mainNav');
+            const mainNav = document.getElementById('mainNav');
             const categoryBar = document.getElementById('categoryBar');
-            const navHeight = navbar.offsetHeight;
-            
-            // Set the top property of the category bar to exactly the height of the navbar
-            categoryBar.style.top = (navHeight - 1) + 'px'; // -1 to account for border overlap if needed
-            
-            // Adjust scroll-margin-top for all sections dynamically
-            const categoryBarHeight = categoryBar.offsetHeight;
-            const totalStickyHeight = navHeight + categoryBarHeight;
-            
-            document.querySelectorAll('.menu-section').forEach(section => {
-                section.style.scrollMarginTop = (totalStickyHeight + 20) + 'px';
-            });
-            
-            return { totalStickyHeight };
+            if (mainNav && categoryBar) {
+                const navHeight = mainNav.offsetHeight;
+                categoryBar.style.top = `${navHeight - 1}px`;
+                return navHeight;
+            }
+            return 0;
         }
 
-        // Initialize sync on load and resize
         window.addEventListener('load', syncStickyPositions);
         window.addEventListener('resize', syncStickyPositions);
+
+        function updatePrice(id) {
+            const select = document.getElementById(`weight-${id}`);
+            const priceDisplay = document.getElementById(`price-${id}`);
+            priceDisplay.innerText = `₹${select.value}`;
+        }
+
+        function handleAddToCart(baseName, selectId, img) {
+            const select = document.getElementById(selectId);
+            const weight = select.options[select.selectedIndex].getAttribute('data-weight');
+            const price = parseInt(select.value);
+            const fullName = `${baseName} (${weight})`;
+            addToCart(fullName, price, img);
+        }
 
         function addToCart(name, price, img) {
             const existingItem = cart.find(item => item.name === name);
@@ -454,10 +775,10 @@
             const btn = event.currentTarget;
             const originalText = btn.innerText;
             btn.innerText = "Added!";
-            btn.classList.replace('btn-outline-primary', 'btn-primary');
+            btn.style.backgroundColor = "#A3794F";
             setTimeout(() => {
                 btn.innerText = originalText;
-                btn.classList.replace('btn-primary', 'btn-outline-primary');
+                btn.style.backgroundColor = "";
             }, 800);
         }
 
@@ -472,16 +793,16 @@
 
             if (cart.length === 0) {
                 container.innerHTML = '<p class="text-center text-muted py-4">Your cart is empty.</p>';
-                navBadge.style.display = 'none';
-                mobileBadge.style.display = 'none';
+                if(navBadge) navBadge.style.display = 'none';
+                if(mobileBadge) mobileBadge.style.display = 'none';
                 floatBtn.style.display = 'none';
                 checkoutBtn.disabled = true;
                 totalEl.innerText = "₹0";
                 return;
             }
 
-            navBadge.style.display = 'block';
-            mobileBadge.style.display = 'block';
+            if(navBadge) navBadge.style.display = 'block';
+            if(mobileBadge) mobileBadge.style.display = 'block';
             floatBtn.style.display = 'block';
             checkoutBtn.disabled = false;
 
@@ -507,17 +828,15 @@
                 `;
             }).join('');
 
-            navBadge.innerText = itemCount;
-            mobileBadge.innerText = itemCount;
+            if(navBadge) navBadge.innerText = itemCount;
+            if(mobileBadge) mobileBadge.innerText = itemCount;
             floatBadge.innerText = itemCount;
             totalEl.innerText = `₹${total}`;
         }
 
         function changeQty(index, delta) {
             cart[index].quantity += delta;
-            if (cart[index].quantity <= 0) {
-                cart.splice(index, 1);
-            }
+            if (cart[index].quantity <= 0) cart.splice(index, 1);
             updateCartUI();
         }
 
@@ -528,42 +847,56 @@
                 message += `• ${item.name} (x${item.quantity}) - ₹${item.price * item.quantity}\n`;
                 total += item.price * item.quantity;
             });
-            message += `\n*Total: ₹${total}*`;
-            message += `\n\nPlease confirm my order!`;
+            message += `\n*Total: ₹${total}*\n\nPlease confirm my order!`;
             window.open(`https://wa.me/918601154561?text=${encodeURIComponent(message)}`, '_blank');
         }
 
-        // Active Tab Logic with dynamic offset
+        function centerActiveTab(targetTab) {
+            const container = document.getElementById('tab-wrapper');
+            if (!container || !targetTab) return;
+            const scrollPos = targetTab.offsetLeft - (container.offsetWidth / 2) + (targetTab.offsetWidth / 2);
+            container.scrollTo({ left: scrollPos, behavior: 'smooth' });
+        }
+
+        let isManualClick = false;
+
         window.addEventListener('scroll', () => {
+            if (isManualClick) return;
             const sections = document.querySelectorAll('.menu-section');
             const tabs = document.querySelectorAll('.category-tab');
+            const navHeight = syncStickyPositions();
+            const barHeight = document.getElementById('categoryBar').offsetHeight;
             let currentId = "";
-            
-            // Calculate current threshold based on real sticky height
-            const { totalStickyHeight } = syncStickyPositions();
-            const threshold = totalStickyHeight + 50; 
-
             sections.forEach(section => {
-                if (window.pageYOffset >= section.offsetTop - threshold) {
+                if (window.pageYOffset >= section.offsetTop - (navHeight + barHeight + 20)) {
                     currentId = section.getAttribute('id');
                 }
             });
-
             tabs.forEach(tab => {
-                tab.classList.toggle('active', tab.getAttribute('data-target') === currentId);
+                const isNowActive = tab.getAttribute('data-target') === currentId;
+                if (isNowActive && !tab.classList.contains('active')) {
+                    tab.classList.add('active');
+                    centerActiveTab(tab);
+                } else if (!isNowActive) {
+                    tab.classList.remove('active');
+                }
             });
         });
 
-        // Smooth Scroll Tabs with dynamic offset
         document.querySelectorAll('.category-tab').forEach(tab => {
             tab.addEventListener('click', () => {
+                isManualClick = true;
+                document.querySelectorAll('.category-tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                centerActiveTab(tab);
+                const navHeight = syncStickyPositions();
+                const barHeight = document.getElementById('categoryBar').offsetHeight;
                 const target = document.getElementById(tab.getAttribute('data-target'));
-                const { totalStickyHeight } = syncStickyPositions();
-                
                 window.scrollTo({ 
-                    top: target.offsetTop - totalStickyHeight + 1, 
+                    top: target.offsetTop - (navHeight + barHeight - 2), 
                     behavior: 'smooth' 
                 });
+                setTimeout(() => { isManualClick = false; }, 800);
             });
         });
     </script>
